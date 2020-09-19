@@ -29,7 +29,7 @@ function menu_draw()
 
 	if t < 10
 	then
-		print("press z", 64-14 , 100, 6)
+		cprint("press z", 100, 6)
 	else 
 		if t == 10 + 5
 		then t = 0 end
@@ -47,24 +47,65 @@ function game_init()
 
 	_update = game_update
 	_draw = game_draw
+
+	create_game_stuff()
 end
 
 function game_update()
+
+	if btn(0) 
+	then
+		player.xpos -= player.speed
+	end
+	
+	if btn(1) 
+	then
+		player.xpos += player.speed
+	end
+	
+	if btn(2) 
+	then
+		player.ypos -= player.speed
+	end
+	
+	if btn(3) 
+	then
+		player.ypos += player.speed
+	end
 
 end
 
 function game_draw()
 	cls(0)
 
-    spr(0, 64-8, 64-8)
+    spr(0, player.xpos, player.ypos)
 end
 
+---
+--- general game functions
+---
+function create_game_stuff()
+	player = {
+		xpos = 0,
+		ypos = 0,
+		speed = 1,
+		direction = 0
+	}
+
+end
 
 ---
 --- utils
 ---
 function cprint(s, ypos, c)
     print(s, 64-#s*2, ypos, c)
+end
+
+function load_palette(palette)
+	pal()
+	for i=1,#palette do
+		pal(i-1, palette[i])
+	end
 end
 
 __gfx__
